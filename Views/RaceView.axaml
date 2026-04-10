@@ -1,0 +1,188 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:RaceSimulator.ViewModels"
+             x:Class="RaceSimulator.Views.RaceView"
+             x:DataType="vm:RaceViewModel">
+
+  <Border Margin="4" Padding="8"
+          Background="#1A1A2E"
+          BorderBrush="#3A3A5C"
+          BorderThickness="1"
+          CornerRadius="6">
+
+    <StackPanel Spacing="6">
+
+      
+      <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+        <TextBlock Grid.Column="0"
+                   Text="{Binding RaceName}"
+                   FontSize="14" FontWeight="Bold"
+                   Foreground="#E0E0FF"
+                   VerticalAlignment="Center"/>
+        <Button Grid.Column="1" Content="Start"
+                Command="{Binding StartCommand}"
+                Margin="4,0" Padding="8,3"
+                Background="#22AA44" Foreground="White"
+                CornerRadius="4"/>
+        <Button Grid.Column="2" Content="Stop"
+                Command="{Binding StopCommand}"
+                Margin="4,0" Padding="8,3"
+                Background="#AA2222" Foreground="White"
+                CornerRadius="4"/>
+        <Button Grid.Column="3" Content="✕"
+                Margin="4,0" Padding="8,3"
+                Background="#555577" Foreground="White"
+                CornerRadius="4"
+                Click="OnRemoveClick"/>
+      </Grid>
+
+      
+      <Border Height="130" Background="#0D0D1A"
+              BorderBrush="#2A2A4A" BorderThickness="1"
+              CornerRadius="4" ClipToBounds="True">
+        <Canvas Width="680" Height="130">
+
+          
+          <Rectangle Canvas.Left="0" Canvas.Top="46"
+                     Width="680" Height="70"
+                     Fill="#1E1E2E"/>
+          
+          <Line StartPoint="0,46" EndPoint="680,46"
+                Stroke="#333350" StrokeThickness="2"/>
+          <Line StartPoint="0,116" EndPoint="680,116"
+                Stroke="#333350" StrokeThickness="2"/>
+          
+          <Rectangle Canvas.Left="0" Canvas.Top="44"
+                     Width="5" Height="74"
+                     Fill="White" Opacity="0.8"/>
+          
+          <TextBlock Canvas.Left="8" Canvas.Top="118"
+                     Text="PIT LANE" FontSize="7"
+                     Foreground="#555577"/>
+
+         
+          <ItemsControl ItemsSource="{Binding Cars}"
+                        Canvas.Left="0" Canvas.Top="0"
+                        Width="680" Height="130">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                
+                <Grid Width="680" Height="130"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:RaceCarViewModel">
+                <Canvas Width="680" Height="130">
+                  <Rectangle Canvas.Left="{Binding VisualX}"
+                             Canvas.Top="{Binding VisualY}"
+                             Width="24" Height="10"
+                             Fill="{Binding CarColor}"/>
+                  <Ellipse Canvas.Left="{Binding VisualX}"
+                           Canvas.Top="{Binding VisualY}"
+                           Width="8" Height="8"
+                           Fill="#222233">
+                    <Ellipse.RenderTransform>
+                      <TranslateTransform X="8" Y="-2"/>
+                    </Ellipse.RenderTransform>
+                  </Ellipse>
+                  <Ellipse Canvas.Left="{Binding VisualX}"
+                           Canvas.Top="{Binding VisualY}"
+                           Width="5" Height="5"
+                           Fill="{Binding StatusColor}">
+                    <Ellipse.RenderTransform>
+                      <TranslateTransform X="26" Y="3"/>
+                    </Ellipse.RenderTransform>
+                  </Ellipse>
+                  <TextBlock Canvas.Left="{Binding VisualX}"
+                             Canvas.Top="{Binding VisualY}"
+                             Text="{Binding DriverInitial}"
+                             FontSize="8" FontWeight="Bold"
+                             Foreground="White">
+                    <TextBlock.RenderTransform>
+                      <TranslateTransform X="1" Y="0"/>
+                    </TextBlock.RenderTransform>
+                  </TextBlock>
+                </Canvas>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+
+        </Canvas>
+      </Border>
+
+      
+      <ItemsControl ItemsSource="{Binding Cars}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="vm:RaceCarViewModel">
+            <Grid ColumnDefinitions="80,50,*,55,85" Margin="0,1">
+              <TextBlock Grid.Column="0"
+                         Text="{Binding Name}"
+                         Foreground="#CCCCCC" FontSize="11"
+                         VerticalAlignment="Center"/>
+              <TextBlock Grid.Column="1"
+                         Text="{Binding LapsCompleted, StringFormat='Lap {0}'}"
+                         Foreground="#8888AA" FontSize="10"
+                         VerticalAlignment="Center"/>
+              <ProgressBar Grid.Column="2"
+                           Minimum="0" Maximum="100"
+                           Value="{Binding TireWear}"
+                           Foreground="{Binding StatusColor}"
+                           Background="#333344"
+                           Height="10"
+                           VerticalAlignment="Center"
+                           Margin="2,0"/>
+              <TextBlock Grid.Column="3"
+                         Text="{Binding TireWear, StringFormat='{}{0:F0}%'}"
+                         Foreground="#AAAACC" FontSize="10"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"/>
+              <TextBlock Grid.Column="4"
+                         Text="{Binding StatusText}"
+                         Foreground="{Binding StatusColor}"
+                         FontSize="10"
+                         HorizontalAlignment="Right"
+                         VerticalAlignment="Center"/>
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      
+      <Grid ColumnDefinitions="*,Auto,Auto">
+        <TextBlock Grid.Column="0"
+                   Text="{Binding Status}"
+                   Foreground="#AAAACC" FontSize="11"
+                   VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="1"
+                   Text="{Binding PitStopCount, StringFormat='Pits: {0}'}"
+                   Foreground="#888899" FontSize="10"
+                   Margin="8,0" VerticalAlignment="Center"/>
+        <Button Grid.Column="2"
+                Content="Reflect"
+                Command="{Binding ShowReflectionCommand}"
+                Padding="6,2" FontSize="10"
+                Background="#333355" Foreground="#AAAADD"
+                CornerRadius="3"/>
+      </Grid>
+
+      
+      <TextBlock Text="{Binding WinnerText}"
+                 IsVisible="{Binding IsFinished}"
+                 FontSize="16" FontWeight="Bold"
+                 Foreground="#FFD700"
+                 HorizontalAlignment="Center"/>
+
+      
+      <ScrollViewer MaxHeight="100"
+                    IsVisible="{Binding ReflectionInfo, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+        <TextBlock Text="{Binding ReflectionInfo}"
+                   FontFamily="Monospace"
+                   FontSize="10"
+                   Foreground="#88AACC"
+                   TextWrapping="Wrap"/>
+      </ScrollViewer>
+
+    </StackPanel>
+  </Border>
+
+</UserControl>
