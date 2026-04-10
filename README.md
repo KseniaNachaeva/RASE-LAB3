@@ -19,3 +19,15 @@
 - С некоторой вероятностью машина может врезаться в ограждение — тогда вызывается **погрузчик**, который приезжает на место аварии и эвакуирует болид в боксы (3–7 с).
 - Первая машина, проехавшая все круги — победитель.
 
+ПЕРВЫЙ ЗАПУСК
+<img width="1234" height="1058" alt="image" src="https://github.com/user-attachments/assets/27eb69d9-9c4c-40ba-9919-07628566daed" />
+
+НЕСКОЛЬКО ТРАСС
+<img width="1234" height="1058" alt="image" src="https://github.com/user-attachments/assets/3e516096-6b3b-4342-a689-86f60341436a" />
+
+ПРОЦЕСС ГОНКИ
+<img width="1234" height="1058" alt="image" src="https://github.com/user-attachments/assets/14882f49-cd68-4a9a-a26a-4e72bb3e5359" />
+
+ПОБЕДИТЕЛИ
+<img width="1234" height="1058" alt="image" src="https://github.com/user-attachments/assets/f7b4615a-1a2a-4753-914f-1f2d1f1ce6ba" />
+
